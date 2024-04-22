@@ -61,13 +61,50 @@ module C5GXStarterKitSound(
 //  REG/WIRE declarations
 //=======================================================
 
+wire [15:0] freq;
+wire [9:0] gain;
 
+localparam MAX_GAIN = 10'd1000;
+
+wire [3:0] RepeatKEY;
 
 
 //=======================================================
 //  Structural coding
 //=======================================================
 
+generate
+genvar i;
+for(i=0; i<4; i=i+1) begin: GRepeatKey
+	RepeatPulse #(.T(200)) reBtn(.clk(CLOCK_50_B5B), .en(~KEY[i]), .pulse(RepeatKEY[i]));
+end
+endgenerate
 
+VariableReg #(.SIZE(10), .MIN(0), .MAX(MAX_GAIN), .DELTA(50), .DEFAULT(500)) GainVar
+(
+	.clk(CLOCK_50_B5B),
+	.inc(RepeatKEY[0]),
+	.dec(RepeatKEY[1]),
+	.var(gain)	
+);
+
+VariableReg #(.SIZE(16), .MIN(100), .MAX(22000), .DELTA(100), .DEFAULT(1000))
+FreqVar
+(
+	.clk(CLOCK_50_B5B),
+	.inc(RepeatKEY[2]),
+	.dec(RepeatKEY[3]),
+	.var(freq)	
+);
+
+
+SEG7_4X_DEC
+(
+	.value(SW[9]?(freq/10'd10):(gain/10'd10)),
+	.seg0(HEX0),
+	.seg1(HEX1),
+	.seg2(HEX2),
+	.seg3(HEX3)
+);
 
 endmodule
