@@ -29,13 +29,13 @@ module C5GXStarterKitSound(
 	output		     [6:0]		HEX2,
 	output		     [6:0]		HEX3,
 
-	//////////// Audio //////////
-	input 		          		AUD_ADCDAT,
-	inout 		          		AUD_ADCLRCK,
-	inout 		          		AUD_BCLK,
-	output		          		AUD_DACDAT,
-	inout 		          		AUD_DACLRCK,
-	output		          		AUD_XCK,
+	//////////// Audio ////////// (PB - PlayBack; REC - Record)
+	input 		          		AUD_ADCDAT,  // Audio CODEC ADC Data (RECDAT)
+	inout 		          		AUD_ADCLRCK, // Audio CODEC ADC LR Clock (RECLRC)
+	inout 		          		AUD_BCLK,    // Audio CODEC Bit-Stream Clock (BCLK)
+	output		          		AUD_DACDAT,  // Audio CODEC DAC Data (PBDAT)
+	inout 		          		AUD_DACLRCK, // Audio CODEC DAC LR Clock (PBLRC)
+	output		          		AUD_XCK,     // Audio CODEC Chip Clock (MCLK)
 
 	//////////// I2C for Audio/HDMI-TX/Si5338/HSMC //////////
 	output		          		I2C_SCL,
